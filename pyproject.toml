@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "your5e"
+version = "0.1.0"
+description = "Fifth edition D&D tools"
+authors = [{name = "Author", email = "norm@201created.com"}]
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "pytest",
+    "toml",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["your5e*"]
+
+[project.scripts]
+your5e = "your5e.cli:main"

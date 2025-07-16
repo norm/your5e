@@ -1,0 +1,15 @@
+[[hit_die]]
+id = "hitdie_13"
+die = 10
+value = 10
+comment = "Always max for a character's first level"
+
+[[hit_die]]
+id = "hitdie_19"
+die = 12
+value = 7
+
+[[hit_die]]
+id = "hitdie_23"
+die = 6
+value = 4

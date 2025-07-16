@@ -1,0 +1,39 @@
+[[errors]]
+line = 30
+text = "Required \"die\" argument is missing."
+
+[[errors]]
+line = 31
+text = "Argument has no key."
+
+[[errors]]
+line = 34
+text = "Required \"die\" argument is missing."
+
+[[errors]]
+line = 35
+text = "Argument has no key."
+
+[[errors]]
+line = 36
+text = "Argument has no key."
+
+[[errors]]
+line = 40
+text = "Die \"d40\" is not a standard die."
+
+[[errors]]
+line = 43
+text = "Value \"7\" is out of range."
+
+[[errors]]
+line = 46
+text = "Value \"0\" is out of range."
+
+[[errors]]
+line = 49
+text = "Value \"six\" is not a number."
+
+[[errors]]
+line = 51
+text = "Die \"8\" is not a die."

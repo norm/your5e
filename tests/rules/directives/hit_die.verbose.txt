@@ -1,0 +1,56 @@
+rules/directives/hit_die.md: 10 errors
++ 3 directives:
+        Hit Die, d10, value 10
+        Hit Die, d12, value 7
+        Hit Die, d6, value 4
+
+- 30: Required "die" argument is missing.
+- 31: Argument has no key.
+         28: 
+         29: ## Missing key, only value
+    >    30: - Hit Die
+    >    31:     - d12
+         32: 
+         33: ## Keys are not differentiated with asterisks
+
+- 34: Required "die" argument is missing.
+- 35: Argument has no key.
+- 36: Argument has no key.
+         32: 
+         33: ## Keys are not differentiated with asterisks
+    >    34: - Hit Die
+    >    35:     - die d6
+    >    36:     - value 3
+         37: 
+         38: ## Values are invalid
+
+- 40: Die "d40" is not a standard die.
+         38: ## Values are invalid
+         39: - Hit Die
+    >    40:     - *Die* d40
+         41: - Hit Die
+         42:     - *Die* d6
+
+- 43: Value "7" is out of range.
+         41: - Hit Die
+         42:     - *Die* d6
+    >    43:     - *Value* 7
+         44: - Hit Die
+         45:     - *Die* d6
+
+- 46: Value "0" is out of range.
+         44: - Hit Die
+         45:     - *Die* d6
+    >    46:     - *Value* 0
+         47: - Hit Die
+         48:     - *Die* d6
+
+- 49: Value "six" is not a number.
+- 51: Die "8" is not a die.
+         47: - Hit Die
+         48:     - *Die* d6
+    >    49:     - *Value* six
+         50: - Hit Die
+    >    51:     - *Die* 8
+         52: 
+         53: ## Indentation is significant
