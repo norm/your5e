@@ -19,28 +19,24 @@ your5e check-rules rules/directives/hit_die.md
 your5e check-rules --verbose rules/directives/hit_die.md
 ```
 
-## Development
+
+## Developing `your5e`
 
 Requires:
 
-- Python 3.9+
-- [bats](https://github.com/bats-core/bats-core) for CLI testing (install with `brew install bats-core` on macOS)
-
-Install development dependencies:
-
-```bash
-pip install -e .[dev]
-```
+- Python 3.10+
+    - `pip install -e .[dev]`
+- [bats](https://github.com/bats-core/bats-core) for CLI testing
+    - `brew install bats-core` (on macOS)
 
 Run black reformatting, flake8 linting, python, and CLI tests:
 
 ```bash
-make test
+make test           # everything
+
+make format         # black
+make lint           # flake8
+make tests          # both of:
+make tests-python   #   pytest
+make tests-bats     #   bats
 ```
-
-Or individually:
-
-- `make format` — black
-- `make lint` — flake8
-- `make tests-python` — pytest
-- `make tests-bats` — bats
