@@ -374,6 +374,30 @@ class TestParseRules:
             },
         ]
 
+    def test_comment_lines_are_skipped(self):
+        content = textwrap.dedent(
+            """\
+            - Comment This is a comment
+            - comment another comment
+            - COMMENT case insensitive
+            - # hash comment
+            - comment with *emphasis* on **strong opinions**
+            - Hit Die
+                - *Die* d10
+            """
+        )
+        result, errors = RuleParser().parse_rules(content)
+        assert into_dicts(result) == [
+            {
+                "id": "hitdie_6",
+                "name": None,
+                "comment": None,
+                "die": 10,
+                "value": 6,
+            }
+        ]
+        assert errors == []
+
 
 class TestDirectiveExtract:
     def test_extract_with_example_file(self):

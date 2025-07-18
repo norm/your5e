@@ -35,6 +35,12 @@ class DirectivePosition:
                 index += 1
                 continue
 
+            # Skip comment lines
+            directive_name = line[2:].strip().lower()
+            if directive_name.startswith("comment") or directive_name.startswith("#"):
+                index += 1
+                continue
+
             start_index = index
             index += 1
 

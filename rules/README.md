@@ -1,4 +1,4 @@
-rules parsing
+Rules parsing
 =============
 
 Rules, as understood both by players and GMs, and by the tools, will be
@@ -45,4 +45,5 @@ content will end a directive block.
 
 ### Available Directives
 
-- [Hit Die](directives/hit_die.md)
+- Comment (entire line is ignored)
+- [Hit Die](directives/hit_die.md) adds a hit die to a character
