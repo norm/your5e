@@ -66,4 +66,4 @@ class Set(Directive):
         return cls.create_object(args, index), []
 
     def __str__(self) -> str:
-        return f"{self.DIRECTIVE_NAME}, {self.key}: {self.value}"
+        return f"{self.DIRECTIVE_NAME}: {self.key} = '{self.value}'"

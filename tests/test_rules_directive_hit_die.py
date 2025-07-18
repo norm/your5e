@@ -27,6 +27,7 @@ class TestHitDie:
                 "value": 10,
             }
         ]
+        assert str(result[0]) == "Hit Die: d10 (10)"
         assert errors == []
 
     def test_without_value_gets_average(self):
@@ -47,6 +48,7 @@ class TestHitDie:
                 "value": 6,
             }
         ]
+        assert str(result[0]) == "Hit Die: d10 (6)"
         assert errors == []
 
     def test_valid_average_values(self):

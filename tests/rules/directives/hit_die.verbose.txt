@@ -1,8 +1,8 @@
 rules/directives/hit_die.md: 11 errors
 + 3 directives:
-        Hit Die, d10, value 10
-        Hit Die, d12, value 7
-        Hit Die, d6, value 4
+        Hit Die: d10 (10)
+        Hit Die: d12 (7)
+        Hit Die: d6 (4)
 
 - 30: Required "die" argument is missing.
 - 31: Argument has no key.

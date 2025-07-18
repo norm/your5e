@@ -84,4 +84,4 @@ class HitDie(Directive):
         return cls.create_object(args, index), []
 
     def __str__(self) -> str:
-        return f"{self.DIRECTIVE_NAME}, d{self.die}, value {self.value}"
+        return f"{self.DIRECTIVE_NAME}: d{self.die} ({self.value})"

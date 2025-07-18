@@ -42,6 +42,8 @@ class TestAbilityScore:
                 "maximum": None,
             },
         ]
+        assert str(result[0]) == "Ability Score: Dexterity 15"
+        assert str(result[1]) == "Ability Score: Strength 8"
         assert errors == []
 
     def test_abilities(self):
@@ -99,6 +101,7 @@ class TestAbilityScore:
                 "maximum": None,
             }
         ]
+        assert str(result[0]) == "Ability Score: Strength 15"
         assert errors == []
 
     def test_with_modifier_value(self):
@@ -134,6 +137,8 @@ class TestAbilityScore:
                 "maximum": None,
             },
         ]
+        assert str(result[0]) == "Ability Score: Strength +2"
+        assert str(result[1]) == "Ability Score: Constitution -1"
         assert errors == []
 
     def test_with_override(self):
@@ -158,6 +163,7 @@ class TestAbilityScore:
                 "maximum": None,
             }
         ]
+        assert str(result[0]) == "Ability Score: Strength 21 (override)"
         assert errors == []
 
     def test_with_modifier_constraints(self):
@@ -208,6 +214,9 @@ class TestAbilityScore:
                 "maximum": "10",
             },
         ]
+        assert str(result[0]) == "Ability Score: Intelligence minimum 19 (override)"
+        assert str(result[1]) == "Ability Score: Constitution +2, maximum 20 (override)"
+        assert str(result[2]) == "Ability Score: Strength maximum 10 (override)"
         assert errors == []
 
     def test_override_modifier_default_bounds(self):

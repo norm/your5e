@@ -26,6 +26,7 @@ class TestSetDirective:
                 "value": "Shade of the Mountain",
             }
         ]
+        assert str(result[0]) == "Set: Name = 'Shade of the Mountain'"
         assert errors == []
 
     def test_set_with_comment(self):
@@ -34,7 +35,7 @@ class TestSetDirective:
             - Set
                 - *key* Age
                 - *value* 23
-                - *comment* standard array
+                - *comment* young for an elf
             """
         )
         result, errors = RuleParser().parse_rules(content)
@@ -42,11 +43,12 @@ class TestSetDirective:
             {
                 "id": "set_1",
                 "name": None,
-                "comment": "standard array",
+                "comment": "young for an elf",
                 "key": "Age",
                 "value": "23",
             }
         ]
+        assert str(result[0]) == "Set: Age = '23'"
         assert errors == []
 
     def test_shorthand_format(self):
@@ -65,6 +67,7 @@ class TestSetDirective:
                 "value": "Shade of the Mountain",
             }
         ]
+        assert str(result[0]) == "Set: Name = 'Shade of the Mountain'"
         assert errors == []
 
     def test_missing_key(self):
