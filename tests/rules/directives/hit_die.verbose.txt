@@ -1,4 +1,4 @@
-rules/directives/hit_die.md: 10 errors
+rules/directives/hit_die.md: 11 errors
 + 3 directives:
         Hit Die, d10, value 10
         Hit Die, d12, value 7
@@ -11,46 +11,53 @@ rules/directives/hit_die.md: 10 errors
     >    30: - Hit Die
     >    31:     - d12
          32: 
-         33: ## Keys are not differentiated with asterisks
+         33: ## No emphasis on the shorthand
 
-- 34: Required "die" argument is missing.
-- 35: Argument has no key.
-- 36: Argument has no key.
+- 34: Unknown directive: Hit Die d12
          32: 
-         33: ## Keys are not differentiated with asterisks
-    >    34: - Hit Die
-    >    35:     - die d6
-    >    36:     - value 3
-         37: 
-         38: ## Values are invalid
+         33: ## No emphasis on the shorthand
+    >    34: - Hit Die d12
+         35: 
+         36: ## Keys are not differentiated with asterisks
 
-- 40: Die "d40" is not a standard die.
-         38: ## Values are invalid
-         39: - Hit Die
-    >    40:     - *Die* d40
-         41: - Hit Die
-         42:     - *Die* d6
+- 37: Required "die" argument is missing.
+- 38: Argument has no key.
+- 39: Argument has no key.
+         35: 
+         36: ## Keys are not differentiated with asterisks
+    >    37: - Hit Die
+    >    38:     - die d6
+    >    39:     - value 3
+         40: 
+         41: ## Values are invalid
 
-- 43: Value "7" is out of range.
-         41: - Hit Die
-         42:     - *Die* d6
-    >    43:     - *Value* 7
+- 43: Die "d40" is not a standard die.
+         41: ## Values are invalid
+         42: - Hit Die
+    >    43:     - *Die* d40
          44: - Hit Die
          45:     - *Die* d6
 
-- 46: Value "0" is out of range.
+- 46: Value "7" is out of range.
          44: - Hit Die
          45:     - *Die* d6
-    >    46:     - *Value* 0
+    >    46:     - *Value* 7
          47: - Hit Die
          48:     - *Die* d6
 
-- 49: Value "six" is not a number.
-- 51: Die "8" is not a die.
+- 49: Value "0" is out of range.
          47: - Hit Die
          48:     - *Die* d6
-    >    49:     - *Value* six
+    >    49:     - *Value* 0
          50: - Hit Die
-    >    51:     - *Die* 8
-         52: 
-         53: ## Indentation is significant
+         51:     - *Die* d6
+
+- 52: Value "six" is not a number.
+- 54: Die "8" is not a die.
+         50: - Hit Die
+         51:     - *Die* d6
+    >    52:     - *Value* six
+         53: - Hit Die
+    >    54:     - *Die* 8
+         55: 
+         56: ## Indentation is significant

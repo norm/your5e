@@ -398,6 +398,120 @@ class TestParseRules:
         ]
         assert errors == []
 
+    def test_shorthand_markdown_emphasis_formats(self):
+        content = textwrap.dedent(
+            """\
+            - Hit Die *d10* 8
+            - Hit Die _d8_ 6
+            - Hit Die **d12** 10
+            - Hit Die __d6__ 4
+            - Set *Name* John
+            - Set _Age_ 25
+            - Set **Class** Fighter
+            - Set __Race__ Human
+            """
+        )
+        result, errors = RuleParser().parse_rules(content)
+        assert into_dicts(result) == [
+            {
+                "id": "hitdie_1",
+                "name": None,
+                "comment": None,
+                "die": 10,
+                "value": 8,
+            },
+            {
+                "id": "hitdie_2",
+                "name": None,
+                "comment": None,
+                "die": 8,
+                "value": 6,
+            },
+            {
+                "id": "hitdie_3",
+                "name": None,
+                "comment": None,
+                "die": 12,
+                "value": 10,
+            },
+            {
+                "id": "hitdie_4",
+                "name": None,
+                "comment": None,
+                "die": 6,
+                "value": 4,
+            },
+            {
+                "id": "set_5",
+                "name": None,
+                "comment": None,
+                "key": "Name",
+                "value": "John",
+            },
+            {
+                "id": "set_6",
+                "name": None,
+                "comment": None,
+                "key": "Age",
+                "value": "25",
+            },
+            {
+                "id": "set_7",
+                "name": None,
+                "comment": None,
+                "key": "Class",
+                "value": "Fighter",
+            },
+            {
+                "id": "set_8",
+                "name": None,
+                "comment": None,
+                "key": "Race",
+                "value": "Human",
+            },
+        ]
+        assert errors == []
+
+    def test_shorthand_mismatched_emphasis_markers(self):
+        content = textwrap.dedent(
+            """\
+            - Hit Die **d6_ 2
+            - Hit Die *d8__ 5
+            - Hit Die _d10* 7
+            - Set **Name_ John
+            - Set *Age__ 25
+            - Set _Class* Fighter
+            """
+        )
+        result, errors = RuleParser().parse_rules(content)
+        assert into_dicts(result) == []
+        assert errors == [
+            {
+                "line": 1,
+                "text": "Unknown directive: Hit Die **d6_ 2",
+            },
+            {
+                "line": 2,
+                "text": "Unknown directive: Hit Die *d8__ 5",
+            },
+            {
+                "line": 3,
+                "text": "Unknown directive: Hit Die _d10* 7",
+            },
+            {
+                "line": 4,
+                "text": "Unknown directive: Set **Name_ John",
+            },
+            {
+                "line": 5,
+                "text": "Unknown directive: Set *Age__ 25",
+            },
+            {
+                "line": 6,
+                "text": "Unknown directive: Set _Class* Fighter",
+            },
+        ]
+
 
 class TestDirectiveExtract:
     def test_extract_with_example_file(self):

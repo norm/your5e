@@ -1,11 +1,12 @@
 # Hit Die
 
-Hit Die are added to characters with the 'Hit Die' directive. It takes
-three arguments:
+Hit Die are added to characters with the 'Hit Die' directive. It has two
+arguments, and supports shorthand syntax:
 
 - **Die** (mandatory), what size die to use
-- **Value** (optional), the value to use; if no value is specified, the average rounded up is used
-- **Name** (optional), the name of the die
+- **Value** (optional), the value to use; if no value is specified,
+  the average rounded up is used
+
 
 ## Valid examples
 
@@ -20,8 +21,7 @@ three arguments:
     - *Die* d12
 
 ## Wizard, Level 1
-- hit Die
-    - *die* D6
+- hit Die *d6*
 
 
 ## Invalid examples
@@ -29,6 +29,9 @@ three arguments:
 ## Missing key, only value
 - Hit Die
     - d12
+
+## No emphasis on the shorthand
+- Hit Die d12
 
 ## Keys are not differentiated with asterisks
 - Hit Die

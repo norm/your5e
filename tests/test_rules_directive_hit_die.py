@@ -96,6 +96,32 @@ class TestHitDie:
         ]
         assert errors == []
 
+    def test_shorthand_format(self):
+        content = textwrap.dedent(
+            """\
+            - Hit Die **d10** 8
+            - Hit Die _d6_
+            """
+        )
+        result, errors = RuleParser().parse_rules(content)
+        assert into_dicts(result) == [
+            {
+                "id": "hitdie_1",
+                "name": None,
+                "comment": None,
+                "die": 10,
+                "value": 8,
+            },
+            {
+                "id": "hitdie_2",
+                "name": None,
+                "comment": None,
+                "die": 6,
+                "value": 4,
+            },
+        ]
+        assert errors == []
+
     def test_invalid_die_types(self):
         for die in ["d3", "d5", "d40", "d100"]:
             content = textwrap.dedent(
@@ -113,6 +139,20 @@ class TestHitDie:
                 }
             ]
 
+        content = textwrap.dedent(
+            """\
+            - Hit Die *d3* 2
+            """
+        )
+        result, errors = RuleParser().parse_rules(content)
+        assert into_dicts(result) == []
+        assert errors == [
+            {
+                "line": 1,
+                "text": 'Die "d3" is not a standard die.',
+            }
+        ]
+
     def test_invalid_values(self):
         for value in [-1, 0, 7, 8]:
             content = textwrap.dedent(
@@ -120,6 +160,7 @@ class TestHitDie:
                 - Hit Die
                     - *Die* d6
                     - *Value* {value}
+                - Hit Die *d6* {value}
                 """
             )
             result, errors = RuleParser().parse_rules(content)
@@ -128,7 +169,11 @@ class TestHitDie:
                 {
                     "line": 3,
                     "text": f'Value "{value}" is out of range.',
-                }
+                },
+                {
+                    "line": 4,
+                    "text": f'Value "{value}" is out of range.',
+                },
             ]
 
         content = textwrap.dedent(
@@ -136,6 +181,7 @@ class TestHitDie:
             - Hit Die
                 - *Die* d6
                 - *Value* six
+            - Hit Die *d6* six
             """
         )
         result, errors = RuleParser().parse_rules(content)
@@ -144,7 +190,11 @@ class TestHitDie:
             {
                 "line": 3,
                 "text": 'Value "six" is not a number.',
-            }
+            },
+            {
+                "line": 4,
+                "text": 'Value "six" is not a number.',
+            },
         ]
 
     def test_missing_required_die(self):

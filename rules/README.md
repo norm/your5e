@@ -43,7 +43,28 @@ Directives can be separated by blank lines for visual spacing, but any textual
 content will end a directive block.
 
 
+## Common options
+
+All directives have three arguments, in addition to those it needs.
+
+- *id* (automatic) a unique identifier used in processing
+- *name* (optional) a human-readable identifier, if one is needed
+- *comment* (optional) a human-readable explanation
+
+
+## Shorthand
+
+Some directives that have only two arguments, or two obvious default
+arguments, can be collapsed into a shorthand:
+
+```markdown
+- Hit Die *d10* 4
+- Hit Die *d12*
+```
+
+
 ### Available Directives
 
 - Comment (entire line is ignored)
 - [Hit Die](directives/hit_die.md) adds a hit die to a character
+- [Set](directives/set.md) sets a singular value

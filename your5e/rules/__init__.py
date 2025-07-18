@@ -1,6 +1,20 @@
 from typing import Dict, List, Any, Tuple
+import re
 
 from .directives import DIRECTIVES
+
+SHORTHAND_FORMAT = re.compile(
+    r"""
+    ^
+    (?P<directive> \w+ (?: \s+ \w+ )* )
+    \s+
+    (?P<marker> \*\* | __ | [*_] )  # opening emphasis
+    (?P<key> \w+ )
+    (?P=marker)                     # closing marker
+    (?: \s+ (?P<value> .+ ))?       # value (optional)
+""",
+    re.VERBOSE,
+)
 
 
 class DirectivePosition:
@@ -85,8 +99,62 @@ class RuleParser(DirectivePosition):
 
             index, block_lines = block_info
             last_index = index + len(block_lines)
-
             directive = block_lines[0][2:].strip()
+            parse_error = False
+
+            shorthand_match = SHORTHAND_FORMAT.match(directive)
+            if shorthand_match:
+                directive = shorthand_match.group("directive")
+                key = shorthand_match.group("key")
+                value = shorthand_match.group("value") or ""
+
+                # shorthand is formatted key/value, but the key might not be
+                # "key" (eg Hit Die uses "die"/"value")
+                directive_info = DIRECTIVES.get(directive.lower())
+                if directive_info and hasattr(directive_info["class"], "SHORTHAND_KEY"):
+                    args = {
+                        directive_info["class"].SHORTHAND_KEY: {
+                            "value": key,
+                            "line": index + 1,
+                        },
+                    }
+                    if value:
+                        args["value"] = {"value": value, "line": index + 1}
+                else:
+                    args = {
+                        "key": {"value": key, "line": index + 1},
+                        "value": {"value": value, "line": index + 1},
+                    }
+            else:
+                args = {}
+                for count, line in enumerate(block_lines[1:], 1):
+                    try:
+                        (first_word, value) = line.strip()[2:].split(None, 1)
+                    except ValueError:
+                        first_word = line.strip()[2:]
+                        value = ""
+
+                    key = None
+                    for marker in ["**", "__", "*", "_"]:
+                        if first_word.startswith(marker) and first_word.endswith(
+                            marker
+                        ):
+                            key = first_word[len(marker) : -len(marker)].lower()
+                            break
+
+                    if not key:
+                        errors.append(
+                            {
+                                "line": index + count + 1,
+                                "text": "Argument has no key.",
+                            }
+                        )
+                        parse_error = True
+                        continue
+
+                    # last occurence wins
+                    args[key] = {"value": value, "line": index + count + 1}
+
             directive_info = DIRECTIVES.get(directive.lower())
             if not directive_info:
                 errors.append(
@@ -98,35 +166,6 @@ class RuleParser(DirectivePosition):
                 continue
 
             directive_class = directive_info["class"]
-
-            args = {}
-            parse_error = False
-            for count, line in enumerate(block_lines[1:], 1):
-                try:
-                    (first_word, value) = line.strip()[2:].split(None, 1)
-                except ValueError:
-                    first_word = line.strip()[2:]
-                    value = ""
-
-                key = None
-                for marker in ["**", "__", "*", "_"]:
-                    if first_word.startswith(marker) and first_word.endswith(marker):
-                        key = first_word[len(marker) : -len(marker)].lower()
-                        break
-
-                if not key:
-                    errors.append(
-                        {
-                            "line": index + count + 1,
-                            "text": "Argument has no key.",
-                        }
-                    )
-                    parse_error = True
-                    continue
-
-                # last occurence wins
-                args[key] = {"value": value, "line": index + count + 1}
-
             directive_obj, invalid = directive_class.new(index, args)
             if parse_error or invalid:
                 errors.extend(invalid)

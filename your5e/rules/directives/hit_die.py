@@ -8,6 +8,7 @@ from . import Directive
 class HitDie(Directive):
     DIRECTIVE_NAME = "Hit Die"
     DIRECTIVE_KEY = "hit_die"
+    SHORTHAND_KEY = "die"
 
     die: int = 0
     value: Optional[int] = None
