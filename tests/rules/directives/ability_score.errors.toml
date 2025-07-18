@@ -1,0 +1,43 @@
+[[errors]]
+line = 58
+text = "Required \"ability\" argument is missing."
+
+[[errors]]
+line = 59
+text = "Argument has no key."
+
+[[errors]]
+line = 60
+text = "Argument has no key."
+
+[[errors]]
+line = 63
+text = "Either \"value\" or \"override\" must be specified."
+
+[[errors]]
+line = 68
+text = "Value \"21\" is out of range (3-18)."
+
+[[errors]]
+line = 71
+text = "Value \"1\" is out of range (3-18)."
+
+[[errors]]
+line = 74
+text = "Value \"high\" is not a valid score or modifier."
+
+[[errors]]
+line = 78
+text = "\"Finesse\" is not an ability."
+
+[[errors]]
+line = 80
+text = "\"dancing\" is not an ability."
+
+[[errors]]
+line = 83
+text = "Either \"value\" or \"override\" must be specified."
+
+[[errors]]
+line = 85
+text = "Only one of \"value\" and \"override\" can be specified."

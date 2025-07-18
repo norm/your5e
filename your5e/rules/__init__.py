@@ -5,14 +5,14 @@ from .directives import DIRECTIVES
 
 SHORTHAND_FORMAT = re.compile(
     r"""
-    ^
-    (?P<directive> \w+ (?: \s+ \w+ )* )
-    \s+
-    (?P<marker> \*\* | __ | [*_] )  # opening emphasis
-    (?P<key> \w+ )
-    (?P=marker)                     # closing marker
-    (?: \s+ (?P<value> .+ ))?       # value (optional)
-""",
+        ^
+        (?P<directive> \w+ (?: \s+ \w+ )* )
+        \s+
+        (?P<marker> \*\* | __ | [*_] )  # opening emphasis
+        (?P<key> \w+ )
+        (?P=marker)                     # closing marker
+        (?: \s+ (?P<value> .+ ))?       # value (optional)
+    """,
     re.VERBOSE,
 )
 

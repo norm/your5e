@@ -1,0 +1,39 @@
+[[ability_score]]
+id = "abilityscore_27"
+ability = "dexterity"
+value = "15"
+comment = "standard array"
+
+[[ability_score]]
+id = "abilityscore_31"
+ability = "strength"
+value = "8"
+
+[[ability_score]]
+id = "abilityscore_34"
+ability = "strength"
+value = "+2"
+maximum = "20"
+
+[[ability_score]]
+id = "abilityscore_37"
+ability = "charisma"
+value = "+1"
+maximum = "20"
+
+[[ability_score]]
+id = "abilityscore_40"
+ability = "strength"
+override = "21"
+
+[[ability_score]]
+id = "abilityscore_45"
+ability = "intelligence"
+override = "19"
+minimum = "19"
+
+[[ability_score]]
+id = "abilityscore_50"
+ability = "constitution"
+override = "+2"
+maximum = "20"
