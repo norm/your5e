@@ -1,4 +1,4 @@
-rules/directives/hit_die.md: 11 errors
+docs/rules/directives/hit_die.md: 11 errors
 + 3 directives found:
         Hit Die: d10 (10)
         Hit Die: d12 (7)

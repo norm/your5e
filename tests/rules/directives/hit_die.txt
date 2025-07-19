@@ -1,4 +1,4 @@
-rules/directives/hit_die.md: 11 errors
+docs/rules/directives/hit_die.md: 11 errors
 - 30: Required "die" argument is missing.
 - 31: Argument has no key.
          28: 

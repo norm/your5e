@@ -6,17 +6,17 @@ A set of tools to help with running fifth edition D&D.
 
 ## Rules parsing and directives
 
-Rules are expected to be [written up](rules/README.md) including special
+Rules are expected to be [written up](docs/rules/README.md) including special
 directives to explain to both the players and the tools.
 
 Rules files can be checked for invalid directives:
 
 ```bash
 # find errors
-your5e check-rules rules/directives/hit_die.md
+your5e check-rules docs/rules/directives/hit_die.md
 
 # successful directives also...
-your5e check-rules --verbose rules/directives/hit_die.md
+your5e check-rules --verbose docs/rules/directives/hit_die.md
 ```
 
 

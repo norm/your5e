@@ -1,23 +1,23 @@
-[[test]]
-name = "empty key"
-input = """
-- Set
-    - *key* 
-    - *value* something
-"""
-expected = []
-errors = [
-    { line = 2, text = 'Key "" is not valid.' }
-]
+[[errors]]
+line = 27
+text = "Required \"key\" argument is missing."
 
-[[test]]
-name = "empty value"
-input = """
-- Set
-    - *key* Name
-    - *value* 
-"""
-expected = []
-errors = [
-    { line = 3, text = 'Value "" is not valid.' }
-]
+[[errors]]
+line = 27
+text = "Required \"value\" argument is missing."
+
+[[errors]]
+line = 28
+text = "Required \"value\" argument is missing."
+
+[[errors]]
+line = 30
+text = "Required \"key\" argument is missing."
+
+[[errors]]
+line = 32
+text = "Required \"key\" argument is missing."
+
+[[errors]]
+line = 32
+text = "Required \"value\" argument is missing."

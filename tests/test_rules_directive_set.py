@@ -1,9 +1,9 @@
-import pytest
+import dataclasses
 import textwrap
-from pathlib import Path
 import toml
 
 from your5e.rules import RuleParser
+from your5e.rules.directives import Set
 from tests.utils import into_dicts
 
 
@@ -155,41 +155,22 @@ class TestSetDirective:
             }
         ]
 
+    def test_description_against_reference_toml(self):
+        result, errors = RuleParser().parse_rules_file("docs/rules/directives/set.md")
 
-@pytest.fixture
-def test_data():
-    test_file = Path(__file__).parent / "rules" / "directives" / "set.toml"
-    with open(test_file, "r") as f:
-        return toml.load(f)
+        with open("tests/rules/directives/set.toml", "r") as f:
+            expected_data = toml.load(f)
 
+        # TOML doesn't have a null type by design so this
+        # won't be 100% accurate here; fill in the blanks
+        all_keys = {field.name for field in dataclasses.fields(Set)}
+        for item in expected_data.get("set", []):
+            for key in all_keys:
+                if key not in item:
+                    item[key] = None
 
-@pytest.fixture
-def error_test_data():
-    test_file = Path(__file__).parent / "rules" / "directives" / "set.errors.toml"
-    with open(test_file, "r") as f:
-        return toml.load(f)
+        assert into_dicts(result) == expected_data["set"]
 
-
-class TestSetDirectiveFromToml:
-    def test_from_toml_file(self, test_data):
-        for test_case in test_data["test"]:
-            result, errors = RuleParser().parse_rules(test_case["input"])
-
-            # Add None values for missing fields in TOML expected results
-            expected = test_case["expected"]
-            for item in expected:
-                if "name" not in item:
-                    item["name"] = None
-                if "comment" not in item:
-                    item["comment"] = None
-
-            assert into_dicts(result) == expected, f"Failed: {test_case['name']}"
-            assert errors == test_case["errors"], f"Failed: {test_case['name']}"
-
-    def test_errors_from_toml_file(self, error_test_data):
-        for test_case in error_test_data["test"]:
-            result, errors = RuleParser().parse_rules(test_case["input"])
-            assert (
-                into_dicts(result) == test_case["expected"]
-            ), f"Failed: {test_case['name']}"
-            assert errors == test_case["errors"], f"Failed: {test_case['name']}"
+        with open("tests/rules/directives/set.errors.toml", "r") as f:
+            expected_errors = toml.load(f)
+        assert errors == expected_errors.get("errors", [])

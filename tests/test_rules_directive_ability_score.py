@@ -441,7 +441,7 @@ class TestAbilityScore:
 
     def test_description_against_reference_toml(self):
         result, errors = RuleParser().parse_rules_file(
-            "rules/directives/ability_score.md"
+            "docs/rules/directives/ability_score.md"
         )
 
         with open("tests/rules/directives/ability_score.toml", "r") as f:

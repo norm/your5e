@@ -1,79 +1,15 @@
-[[test]]
-name = "basic set directive"
-input = """
-- Set
-    - *key* Name
-    - *value* Shade of the Mountain
-"""
-expected = [
-    { id = "set_1", key = "Name", value = "Shade of the Mountain" }
-]
-errors = []
+[[set]]
+id = "set_12"
+comment = "standard array"
+key = "Name"
+value = "Shade of the Mountain"
 
-[[test]]
-name = "set with comment"
-input = """
-- Set
-    - *key* Age
-    - *value* 23
-    - *comment* standard array
-"""
-expected = [
-    { id = "set_1", comment = "standard array", key = "Age", value = "23" }
-]
-errors = []
+[[set]]
+id = "set_16"
+key = "Age"
+value = "23"
 
-[[test]]
-name = "shorthand format"
-input = """
-- Set *Name* Shade of the Mountain
-"""
-expected = [
-    { id = "set_1", key = "Name", value = "Shade of the Mountain" }
-]
-errors = []
-
-[[test]]
-name = "missing key"
-input = """
-- Set
-    - *value* Shade of the Mountain
-"""
-expected = []
-errors = [
-    { line = 1, text = 'Required "key" argument is missing.' }
-]
-
-[[test]]
-name = "missing value"
-input = """
-- Set
-    - *key* Name
-"""
-expected = []
-errors = [
-    { line = 1, text = 'Required "value" argument is missing.' }
-]
-
-[[test]]
-name = "missing both arguments"
-input = """
-- Set
-"""
-expected = []
-errors = [
-    { line = 1, text = 'Required "key" argument is missing.' },
-    { line = 1, text = 'Required "value" argument is missing.' }
-]
-
-[[test]]
-name = "invalid key format"
-input = """
-- Set
-    - *Name* Shade of the Mountain
-"""
-expected = []
-errors = [
-    { line = 1, text = 'Required "key" argument is missing.' },
-    { line = 1, text = 'Required "value" argument is missing.' }
-]
+[[set]]
+id = "set_21"
+key = "Name"
+value = "Shade of the Mountain"

@@ -247,7 +247,9 @@ class TestHitDie:
         assert errors == []
 
     def test_description_against_reference_toml(self):
-        result, errors = RuleParser().parse_rules_file("rules/directives/hit_die.md")
+        result, errors = RuleParser().parse_rules_file(
+            "docs/rules/directives/hit_die.md"
+        )
 
         with open("tests/rules/directives/hit_die.toml", "r") as f:
             expected_data = toml.load(f)

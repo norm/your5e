@@ -1,4 +1,4 @@
-rules/directives/hit_die.md: 11 errors
+docs/rules/directives/hit_die.md: 11 errors
 - 30: Required "die" argument is missing.
 - 31: Argument has no key.
 - 34: Unknown directive: Hit Die d12
@@ -11,7 +11,7 @@ rules/directives/hit_die.md: 11 errors
 - 52: Value "six" is not a number.
 - 54: Die "8" is not a die.
 
-rules/directives/ability_score.md: 11 errors
+docs/rules/directives/ability_score.md: 11 errors
 - 58: Required "ability" argument is missing.
 - 59: Argument has no key.
 - 60: Argument has no key.
