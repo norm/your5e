@@ -1,6 +1,6 @@
 import argparse
-import os
 import sys
+from pathlib import Path
 
 from ..rules import RuleParser
 
@@ -15,98 +15,127 @@ class CheckRulesCommand:
         parser.add_argument(
             "files",
             nargs="+",
-            help="Rules files to check",
+            help="Rules files or directories to check",
         )
         parser.add_argument(
             "--verbose",
             action="store_true",
             help="Also report successful directives",
         )
+        parser.add_argument(
+            "--context",
+            type=int,
+            default=0,
+            help="Number of lines of context to show around errors (default: 0)",
+        )
         return parser
 
     @classmethod
     def run(cls, args: argparse.Namespace) -> int:
         exit_code = 0
-        context_lines = 2
 
-        for file in args.files:
-            if file == "-":  # read from stdin
-                content = sys.stdin.read()
-                file = "<stdin>"
-                print()
-            else:
-                if not os.path.exists(file):
-                    print(f"Error: '{file}' not found")
-                    exit_code = 1
-                    continue
-                try:
-                    with open(file, "r") as f:
-                        content = f.read()
-                except Exception as e:
-                    print(f"Error reading file '{file}': {e}")
-                    exit_code = 1
-                    continue
+        if args.files[0] == "-":
+            content = sys.stdin.read()
+            return cls.validate_content("<stdin>", content, args.verbose, args.context)
 
-            result_objects, errors = RuleParser().parse_rules(content)
+        found_files = []
+        for path_str in args.files:
+            if path_str == "-":
+                # silently ignore if it appears after files
+                continue
 
-            if errors or args.verbose:
-                print(f"{file}: {len(errors)} errors")
-            if args.verbose and len(result_objects):
-                total_directives = len(result_objects)
-                print(f"+ {total_directives} directives:")
+            path = Path(path_str)
+            if not path.exists():
+                print(f"Error: '{path_str}' not found")
+                continue
 
-                for directive in result_objects:
-                    print(f"        {directive}")
+            if path.is_file():
+                found_files.append(str(path))
+            elif path.is_dir():
+                md_files = list(path.rglob("*.md"))
+                found_files.extend(str(f) for f in sorted(md_files))
 
-                if errors:
-                    print()
+        if not found_files:
+            return 1
 
-            if errors:
+        for count, file in enumerate(found_files):
+            try:
+                with open(file, "r") as f:
+                    content = f.read()
+            except Exception as e:
+                print(f"Error reading file '{file}': {e}")
                 exit_code = 1
-                content_lines = content.split("\n")
-                lines = "", *content_lines
+                continue
 
-                error_lines = {error["line"] for error in errors}
-                error_groups = []
-                current_group = []
+            file_exit_code = cls.validate_content(
+                file, content, args.verbose, args.context
+            )
+            if file_exit_code != 0:
+                exit_code = file_exit_code
 
-                for error in sorted(errors, key=lambda e: e["line"]):
-                    if (
-                        not current_group
-                        or error["line"] - current_group[-1]["line"] <= context_lines
-                    ):
-                        current_group.append(error)
-                    else:
-                        error_groups.append(current_group)
-                        current_group = [error]
-
-                if current_group:
-                    error_groups.append(current_group)
-
-                for count, group in enumerate(error_groups):
-                    # errors grouped before context lines
-                    for error in group:
-                        line = error["line"]
-                        print(f"- {line}: {error['text']}")
-
-                    if content_lines:
-                        start_line = max(
-                            0, min(error["line"] for error in group) - context_lines
-                        )
-                        end_line = min(
-                            len(lines) - 1,
-                            max(error["line"] for error in group) + context_lines,
-                        )
-
-                        for line in range(start_line, end_line + 1):
-                            if line < len(lines):
-                                marker = ">" if line in error_lines else " "
-                                print(f"    {marker:2s} {line:4d}: {lines[line]}")
-
-                    if count < len(error_groups) - 1:
-                        print()
-
-                if len(args.files) > 1:
-                    print()
+            # space out between multiple files
+            if count < len(found_files) - 1 and file_exit_code != 0:
+                print()
 
         return exit_code
+
+    @classmethod
+    def validate_content(cls, filename, content, verbose, lines_of_context):
+        result_objects, errors = RuleParser().parse_rules(content)
+
+        if errors or verbose:
+            print(f"{filename}: {len(errors)} errors")
+        if verbose and len(result_objects):
+            total_directives = len(result_objects)
+            print(f"+ {total_directives} directives found:")
+
+            for directive in result_objects:
+                print(f"        {directive}")
+
+            if errors:
+                print()
+
+        if not errors:
+            return 0
+
+        content_lines = content.split("\n")
+        lines = "", *content_lines
+        errors_grouped = []
+        current_group = []
+
+        for error in sorted(errors, key=lambda e: e["line"]):
+            if (
+                not current_group
+                or error["line"] - current_group[-1]["line"] <= lines_of_context
+            ):
+                current_group.append(error)
+            else:
+                errors_grouped.append(current_group)
+                current_group = [error]
+
+        if current_group:
+            errors_grouped.append(current_group)
+
+        for count, group in enumerate(errors_grouped):
+            group_error_lines = set()
+
+            # errors are grouped in the output before context
+            # lines are shown where they overlap
+            for error in group:
+                line = error["line"]
+                print(f"- {line}: {error['text']}")
+                if lines_of_context > 0:
+                    group_error_lines.add(line)
+
+            if content_lines and lines_of_context > 0:
+                start_line = max(0, group[0]["line"] - lines_of_context)
+                end_line = min(len(lines) - 1, group[-1]["line"] + lines_of_context)
+
+                for line in range(start_line, end_line + 1):
+                    marker = ">" if line in group_error_lines else " "
+                    print(f"    {marker:2s} {line:4d}: {lines[line]}")
+
+                if count < len(errors_grouped) - 1:
+                    print()
+
+        return 1

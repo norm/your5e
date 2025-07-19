@@ -7,15 +7,27 @@
 }
 
 @test "check-rules output matches reference" {
-    run your5e check-rules rules/directives/hit_die.md
+    run your5e check-rules --context 2 rules/directives/hit_die.md
     [ $status -eq 1 ]
     diff -u tests/rules/directives/hit_die.txt <(echo "$output")
 }
 
 @test "check-rules verbose output matches reference" {
-    run your5e check-rules --verbose rules/directives/hit_die.md
+    run your5e check-rules --verbose --context 2 rules/directives/hit_die.md
     [ $status -eq 1 ]
     diff -u tests/rules/directives/hit_die.verbose.txt <(echo "$output")
+}
+
+@test "check-rules no-context output matches reference" {
+    run your5e check-rules rules/directives/hit_die.md
+    [ $status -eq 1 ]
+    diff -u tests/rules/directives/hit_die.no-context.txt <(echo "$output")
+}
+
+@test "check-rules multiple files output matches reference" {
+    run your5e check-rules rules/directives/hit_die.md rules/directives/ability_score.md
+    [ $status -eq 1 ]
+    diff -u tests/rules/directives/multiple-files.txt <(echo "$output")
 }
 
 @test "check-rules with valid file gives no output" {
