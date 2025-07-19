@@ -1,63 +1,63 @@
 docs/rules/directives/hit_die.md: 11 errors
-+ 3 directives found:
-        Hit Die: d10 (10)
-        Hit Die: d12 (7)
-        Hit Die: d6 (4)
+  + 3 directives found:
+          Hit Die: d10 (10)
+          Hit Die: d12 (7)
+          Hit Die: d6 (4)
 
-- 30: Required "die" argument is missing.
-- 31: Argument has no key.
-         28: 
-         29: ## Missing key, only value
-    >    30: - Hit Die
-    >    31:     - d12
-         32: 
-         33: ## No emphasis on the shorthand
+  - 30: Required "die" argument is missing.
+  - 31: Argument has no key.
+           28: 
+           29: ## Missing key, only value
+      >    30: - Hit Die
+      >    31:     - d12
+           32: 
+           33: ## No emphasis on the shorthand
 
-- 34: Unknown directive: Hit Die d12
-         32: 
-         33: ## No emphasis on the shorthand
-    >    34: - Hit Die d12
-         35: 
-         36: ## Keys are not differentiated with asterisks
+  - 34: Unknown directive: Hit Die d12
+           32: 
+           33: ## No emphasis on the shorthand
+      >    34: - Hit Die d12
+           35: 
+           36: ## Keys are not differentiated with asterisks
 
-- 37: Required "die" argument is missing.
-- 38: Argument has no key.
-- 39: Argument has no key.
-         35: 
-         36: ## Keys are not differentiated with asterisks
-    >    37: - Hit Die
-    >    38:     - die d6
-    >    39:     - value 3
-         40: 
-         41: ## Values are invalid
+  - 37: Required "die" argument is missing.
+  - 38: Argument has no key.
+  - 39: Argument has no key.
+           35: 
+           36: ## Keys are not differentiated with asterisks
+      >    37: - Hit Die
+      >    38:     - die d6
+      >    39:     - value 3
+           40: 
+           41: ## Values are invalid
 
-- 43: Die "d40" is not a standard die.
-         41: ## Values are invalid
-         42: - Hit Die
-    >    43:     - *Die* d40
-         44: - Hit Die
-         45:     - *Die* d6
+  - 43: Die "d40" is not a standard die.
+           41: ## Values are invalid
+           42: - Hit Die
+      >    43:     - *Die* d40
+           44: - Hit Die
+           45:     - *Die* d6
 
-- 46: Value "7" is out of range.
-         44: - Hit Die
-         45:     - *Die* d6
-    >    46:     - *Value* 7
-         47: - Hit Die
-         48:     - *Die* d6
+  - 46: Value "7" is out of range.
+           44: - Hit Die
+           45:     - *Die* d6
+      >    46:     - *Value* 7
+           47: - Hit Die
+           48:     - *Die* d6
 
-- 49: Value "0" is out of range.
-         47: - Hit Die
-         48:     - *Die* d6
-    >    49:     - *Value* 0
-         50: - Hit Die
-         51:     - *Die* d6
+  - 49: Value "0" is out of range.
+           47: - Hit Die
+           48:     - *Die* d6
+      >    49:     - *Value* 0
+           50: - Hit Die
+           51:     - *Die* d6
 
-- 52: Value "six" is not a number.
-- 54: Die "8" is not a die.
-         50: - Hit Die
-         51:     - *Die* d6
-    >    52:     - *Value* six
-         53: - Hit Die
-    >    54:     - *Die* 8
-         55: 
-         56: ## Indentation is significant
+  - 52: Value "six" is not a number.
+  - 54: Die "8" is not a die.
+           50: - Hit Die
+           51:     - *Die* d6
+      >    52:     - *Value* six
+           53: - Hit Die
+      >    54:     - *Die* 8
+           55: 
+           56: ## Indentation is significant

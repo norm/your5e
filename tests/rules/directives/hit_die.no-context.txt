@@ -1,12 +1,12 @@
 docs/rules/directives/hit_die.md: 11 errors
-- 30: Required "die" argument is missing.
-- 31: Argument has no key.
-- 34: Unknown directive: Hit Die d12
-- 37: Required "die" argument is missing.
-- 38: Argument has no key.
-- 39: Argument has no key.
-- 43: Die "d40" is not a standard die.
-- 46: Value "7" is out of range.
-- 49: Value "0" is out of range.
-- 52: Value "six" is not a number.
-- 54: Die "8" is not a die.
+  - 30: Required "die" argument is missing.
+  - 31: Argument has no key.
+  - 34: Unknown directive: Hit Die d12
+  - 37: Required "die" argument is missing.
+  - 38: Argument has no key.
+  - 39: Argument has no key.
+  - 43: Die "d40" is not a standard die.
+  - 46: Value "7" is out of range.
+  - 49: Value "0" is out of range.
+  - 52: Value "six" is not a number.
+  - 54: Die "8" is not a die.

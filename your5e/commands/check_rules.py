@@ -87,10 +87,10 @@ class CheckRulesCommand:
             print(f"{filename}: {len(errors)} errors")
         if verbose and len(result_objects):
             total_directives = len(result_objects)
-            print(f"+ {total_directives} directives found:")
+            print(f"  + {total_directives} directives found:")
 
             for directive in result_objects:
-                print(f"        {directive}")
+                print(f"          {directive}")
 
             if errors:
                 print()
@@ -123,7 +123,7 @@ class CheckRulesCommand:
             # lines are shown where they overlap
             for error in group:
                 line = error["line"]
-                print(f"- {line}: {error['text']}")
+                print(f"  - {line}: {error['text']}")
                 if lines_of_context > 0:
                     group_error_lines.add(line)
 
@@ -133,7 +133,7 @@ class CheckRulesCommand:
 
                 for line in range(start_line, end_line + 1):
                     marker = ">" if line in group_error_lines else " "
-                    print(f"    {marker:2s} {line:4d}: {lines[line]}")
+                    print(f"      {marker:2s} {line:4d}: {lines[line]}")
 
                 if count < len(errors_grouped) - 1:
                     print()
