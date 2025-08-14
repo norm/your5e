@@ -1,0 +1,51 @@
+[[errors]]
+line = 49
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 49
+text = 'Required "description" argument is missing.'
+
+[[errors]]
+line = 50
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 50
+text = 'Required "description" argument is missing.'
+
+[[errors]]
+line = 54
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 54
+text = 'Required "description" argument is missing.'
+
+[[errors]]
+line = 55
+text = 'Argument has no key.'
+
+[[errors]]
+line = 56
+text = 'Argument has no key.'
+
+[[errors]]
+line = 57
+text = 'Argument has no key.'
+
+[[errors]]
+line = 59
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 59
+text = 'Required "description" argument is missing.'
+
+[[errors]]
+line = 60
+text = 'Argument has no key.'
+
+[[errors]]
+line = 61
+text = 'Argument has no key.'

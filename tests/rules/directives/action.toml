@@ -1,0 +1,21 @@
+[[action]]
+id = "action_23"
+name = "Unarmed Strike"
+description = "Make a melee attack with your elbow, knee, etc."
+effect = "harm"
+amount = "1 + {STRENGTH_MOD}"
+roll = "d20"
+
+[[bonusaction]]
+id = "bonusaction_31"
+name = "Second Wind"
+description = "Regain 1d10 + {FIGHTER} Hit Points between rests."
+uses = "Second Wind"
+effect = "heal"
+amount = "1d10 + {FIGHTER}"
+
+[[reaction]]
+id = "reaction_39"
+name = "Counterspell"
+description = "Attempt to interrupt a creature casting a spell."
+uses = "Spell Slot"

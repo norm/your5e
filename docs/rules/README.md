@@ -68,6 +68,8 @@ arguments, can be collapsed into a shorthand:
 - Comment (entire line is ignored)
 - [Ability Score](directives/ability_score.md) sets/adjusts an ability score
   on a character
+- [Action](directives/action.md) adds an Action, Bonus Action, or Reaction
+  that a character can take
 - [Hit Die](directives/hit_die.md) adds a hit die to a character
 - [Proficiency](directives/proficiency.md) adds proficiencies to a character
 - [Set](directives/set.md) sets a singular value
