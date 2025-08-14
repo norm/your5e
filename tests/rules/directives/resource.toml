@@ -1,0 +1,17 @@
+[[resource]]
+id = "resource_19"
+name = "Second Wind"
+uses = "1"
+renew = "rest"
+
+[[resource]]
+id = "resource_25"
+name = "Wand of Magic Missiles"
+uses = "7"
+renew = "dawn"
+regain = "1d6 + 1"
+
+[[resource]]
+id = "resource_32"
+name = "Charm of the Storm"
+uses = "3"

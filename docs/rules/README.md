@@ -72,4 +72,6 @@ arguments, can be collapsed into a shorthand:
   that a character can take
 - [Hit Die](directives/hit_die.md) adds a hit die to a character
 - [Proficiency](directives/proficiency.md) adds proficiencies to a character
+- [Resource](directives/resource.md) adds resources that have a limited number
+  of uses
 - [Set](directives/set.md) sets a singular value

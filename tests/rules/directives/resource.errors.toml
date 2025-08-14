@@ -1,0 +1,7 @@
+[[errors]]
+line = 38
+text = 'Required "uses" argument is missing.'
+
+[[errors]]
+line = 39
+text = 'Required "name" argument is missing.'
