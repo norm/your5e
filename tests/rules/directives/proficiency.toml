@@ -1,0 +1,15 @@
+[[proficiency]]
+id = "proficiency_20"
+comment = "all Martial class weapons"
+type = "weapon"
+value = "Martial"
+
+[[proficiency]]
+id = "proficiency_24"
+type = "saving throw"
+value = "Strength"
+
+[[proficiency]]
+id = "proficiency_25"
+type = "saving throw"
+value = "Constitution"

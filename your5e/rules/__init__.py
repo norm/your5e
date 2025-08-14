@@ -9,7 +9,7 @@ SHORTHAND_FORMAT = re.compile(
         (?P<directive> \w+ (?: \s+ \w+ )* )
         \s+
         (?P<marker> \*\* | __ | [*_] )  # opening emphasis
-        (?P<key> \w+ )
+        (?P<key> \w+ (?: \s+ \w+ )* )
         (?P=marker)                     # closing marker
         (?: \s+ (?P<value> .+ ))?       # value (optional)
     """,

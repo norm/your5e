@@ -66,5 +66,8 @@ arguments, can be collapsed into a shorthand:
 ### Available Directives
 
 - Comment (entire line is ignored)
+- [Ability Score](directives/ability_score.md) sets/adjusts an ability score
+  on a character
 - [Hit Die](directives/hit_die.md) adds a hit die to a character
+- [Proficiency](directives/proficiency.md) adds proficiencies to a character
 - [Set](directives/set.md) sets a singular value
