@@ -71,6 +71,8 @@ arguments, can be collapsed into a shorthand:
 - [Action](directives/action.md) adds an Action, Bonus Action, or Reaction
   that a character can take
 - [Hit Die](directives/hit_die.md) adds a hit die to a character
+- [Inventory](directives/inventory.md) add/remove items from a character's
+  inventory
 - [Proficiency](directives/proficiency.md) adds proficiencies to a character
 - [Resource](directives/resource.md) adds resources that have a limited number
   of uses

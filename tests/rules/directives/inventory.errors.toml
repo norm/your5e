@@ -1,0 +1,7 @@
+[[errors]]
+line = 27
+text = 'Required "action" argument is missing.'
+
+[[errors]]
+line = 31
+text = 'Required "item" argument is missing.'
