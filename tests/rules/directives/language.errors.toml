@@ -1,0 +1,11 @@
+[[errors]]
+line = 19
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 20
+text = "Argument has no key."
+
+[[errors]]
+line = 22
+text = 'Required "name" argument is missing.'

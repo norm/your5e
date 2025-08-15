@@ -73,6 +73,7 @@ arguments, can be collapsed into a shorthand:
 - [Hit Die](directives/hit_die.md) adds a hit die to a character
 - [Inventory](directives/inventory.md) add/remove items from a character's
   inventory
+- [Language](directives/language.md) adds a known language to a character
 - [Proficiency](directives/proficiency.md) adds proficiencies to a character
 - [Resource](directives/resource.md) adds resources that have a limited number
   of uses
