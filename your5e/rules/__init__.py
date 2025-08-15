@@ -101,6 +101,7 @@ class RuleParser(DirectivePosition):
             last_index = index + len(block_lines)
             directive = block_lines[0][2:].strip()
             parse_error = False
+            line_number = index + 1
 
             shorthand_match = SHORTHAND_FORMAT.match(directive)
             if shorthand_match:
@@ -108,23 +109,28 @@ class RuleParser(DirectivePosition):
                 key = shorthand_match.group("key")
                 value = shorthand_match.group("value") or ""
 
+            directive_info = DIRECTIVES.get(directive.lower())
+            if not directive_info:
+                errors.append(
+                    {
+                        "line": line_number,
+                        "text": f"Unknown directive: {directive}",
+                    }
+                )
+                continue
+
+            if shorthand_match:
                 # shorthand is formatted key/value, but the key might not be
-                # "key" (eg Hit Die uses "die"/"value")
-                directive_info = DIRECTIVES.get(directive.lower())
-                if directive_info and hasattr(directive_info["class"], "SHORTHAND_KEY"):
-                    args = {
-                        directive_info["class"].SHORTHAND_KEY: {
-                            "value": key,
-                            "line": index + 1,
-                        },
-                    }
-                    if value:
-                        args["value"] = {"value": value, "line": index + 1}
-                else:
-                    args = {
-                        "key": {"value": key, "line": index + 1},
-                        "value": {"value": value, "line": index + 1},
-                    }
+                # "key" and value might not be "value"" (eg Resource fills in
+                # the "name" and "uses" keys for its shorthand)
+                shorthand_key = getattr(directive_info["class"], "SHORTHAND_KEY", "key")
+                shorthand_value = getattr(
+                    directive_info["class"], "SHORTHAND_VALUE", "value"
+                )
+
+                args = {shorthand_key: {"value": key, "line": line_number}}
+                if value:
+                    args[shorthand_value] = {"value": value, "line": line_number}
             else:
                 args = {}
                 for count, line in enumerate(block_lines[1:], 1):
@@ -145,7 +151,7 @@ class RuleParser(DirectivePosition):
                     if not key:
                         errors.append(
                             {
-                                "line": index + count + 1,
+                                "line": line_number + count,
                                 "text": "Argument has no key.",
                             }
                         )
@@ -153,20 +159,10 @@ class RuleParser(DirectivePosition):
                         continue
 
                     # last occurence wins
-                    args[key] = {"value": value, "line": index + count + 1}
-
-            directive_info = DIRECTIVES.get(directive.lower())
-            if not directive_info:
-                errors.append(
-                    {
-                        "line": index + 1,
-                        "text": f"Unknown directive: {directive}",
-                    }
-                )
-                continue
+                    args[key] = {"value": value, "line": line_number + count}
 
             directive_class = directive_info["class"]
-            directive_obj, invalid = directive_class.new(index + 1, args)
+            directive_obj, invalid = directive_class.new(line_number, args)
             if parse_error or invalid:
                 errors.extend(invalid)
             else:
