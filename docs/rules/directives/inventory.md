@@ -17,11 +17,12 @@ directive. It has three arguments, and supports shorthand syntax:
     - _Item_ Arrow
     - _Count_ 20
 
-- Inventory _remove_ Gold Piece
-    - _Count_ 500
-
 
 ## Invalid examples
+
+### Arguments to shorthand
+- Inventory _remove_ Gold Piece
+    - _Count_ 500
 
 ### Missing action
 - Inventory

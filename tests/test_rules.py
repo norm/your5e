@@ -512,6 +512,40 @@ class TestParseRules:
             },
         ]
 
+    def test_shorthand_with_arguments_error(self):
+        content = textwrap.dedent(
+            """\
+            - Proficiency _saving throw_ Constitution
+                - _comment_ this should throw an error
+            """
+        )
+        result, errors = RuleParser().parse_rules(content)
+        assert into_dicts(result) == []
+        assert errors == [
+            {
+                "line": 1,
+                "text": "No arguments when using shorthand notation.",
+            },
+        ]
+
+        content = textwrap.dedent(
+            """\
+            - Proficiency _saving throw_ Constitution
+                - # this shouldn't
+            """
+        )
+        result, errors = RuleParser().parse_rules(content)
+        assert into_dicts(result) == [
+            {
+                "id": "proficiency_1",
+                "name": None,
+                "comment": None,
+                "type": "saving throw",
+                "value": "Constitution",
+            },
+        ]
+        assert errors == []
+
 
 class TestDirectiveExtract:
     def test_extract_with_example_file(self):

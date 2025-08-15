@@ -58,8 +58,19 @@ Some directives that have only two arguments, or two obvious default
 arguments, can be collapsed into a shorthand:
 
 ```markdown
-- Hit Die *d10* 4
+- Hit Die *d10* 2
 - Hit Die *d12*
+```
+
+When in shorthand notation, a directive will not accept further optional
+arguments, so to include a comment on the above example, it would have
+to be expanded:
+
+```markdown
+- Hit Die
+    - _die_ d10
+    - _value_ 2
+    - _comment_ ugh, rolled low
 ```
 
 

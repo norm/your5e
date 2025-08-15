@@ -1,7 +1,11 @@
 [[errors]]
-line = 27
+line = 24
+text = "No arguments when using shorthand notation."
+
+[[errors]]
+line = 28
 text = 'Required "action" argument is missing.'
 
 [[errors]]
-line = 31
+line = 32
 text = 'Required "item" argument is missing.'

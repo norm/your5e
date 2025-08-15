@@ -163,7 +163,21 @@ class RuleParser(DirectivePosition):
                     line_number, args, raw_lines=block_lines
                 )
             else:
-                if not shorthand_match:
+                if shorthand_match and len(block_lines) > 1:
+                    if any(
+                        line
+                        and not line.startswith("- #")
+                        and not line.lower().startswith("- comment")
+                        for line in (line.strip() for line in block_lines[1:])
+                    ):
+                        errors.append(
+                            {
+                                "line": line_number,
+                                "text": "No arguments when using shorthand notation.",
+                            }
+                        )
+                        parse_error = True
+                elif not shorthand_match:
                     for count, line in enumerate(block_lines[1:], 1):
                         key_value_pair = extract_key_value(line.strip())
                         if key_value_pair:

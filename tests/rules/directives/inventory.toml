@@ -8,8 +8,3 @@ id = "inventory_15"
 action = "add"
 item = "Arrow"
 count = 20
-
-[[inventory]]
-id = "inventory_20"
-action = "remove"
-item = "Gold Piece"
