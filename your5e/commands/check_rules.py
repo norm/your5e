@@ -1,6 +1,7 @@
 import argparse
 import sys
 from pathlib import Path
+from pprint import pprint
 
 from ..rules import RuleParser
 
@@ -28,6 +29,11 @@ class CheckRulesCommand:
             default=0,
             help="Number of lines of context to show around errors (default: 0)",
         )
+        parser.add_argument(
+            "--debug",
+            action="store_true",
+            help="Output the parsed rules structure for debugging",
+        )
         return parser
 
     @classmethod
@@ -36,7 +42,9 @@ class CheckRulesCommand:
 
         if args.files[0] == "-":
             content = sys.stdin.read()
-            return cls.validate_content("<stdin>", content, args.verbose, args.context)
+            return cls.validate_content(
+                "<stdin>", content, args.verbose, args.context, args.debug
+            )
 
         found_files = []
         for path_str in args.files:
@@ -68,7 +76,7 @@ class CheckRulesCommand:
                 continue
 
             file_exit_code = cls.validate_content(
-                file, content, args.verbose, args.context
+                file, content, args.verbose, args.context, args.debug
             )
             if file_exit_code != 0:
                 exit_code = file_exit_code
@@ -80,8 +88,20 @@ class CheckRulesCommand:
         return exit_code
 
     @classmethod
-    def validate_content(cls, filename, content, verbose, lines_of_context):
+    def validate_content(
+        cls, filename, content, verbose, lines_of_context, debug_output
+    ):
         result_objects, errors = RuleParser().parse_rules(content)
+
+        if debug_output:
+            if result_objects:
+                debug_data = [directive.asdict() for directive in result_objects]
+                pprint(debug_data, indent=2, width=100)
+            if errors:
+                print(f"Errors ({len(errors)}):")
+                for error in errors:
+                    print(f"  Line {error['line']}: {error['text']}")
+            return 0 if not errors else 1
 
         if errors or verbose:
             print(f"{filename}: {len(errors)} errors")
