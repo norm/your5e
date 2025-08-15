@@ -1,7 +1,7 @@
 .PHONY: format lint tests-python tests-bats tests test
 
 format:
-	@black your5e tests
+	@black -q your5e tests
 
 lint:
 	@flake8 your5e tests
