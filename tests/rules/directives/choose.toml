@@ -1,0 +1,144 @@
+[[choose]]
+id = "choose_19"
+name = "First Equipment Choice"
+count = 1
+
+[[choose.options]]
+name = "chain mail"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Chain Mail"
+
+[[choose.options]]
+name = "leather armor, longbow, and 20 arrows"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Leather Armor"
+
+[[choose.options.directives]]
+id = "inventory_2"
+action = "add"
+item = "Longbow"
+
+[[choose.options.directives]]
+id = "inventory_3"
+action = "add"
+item = "Arrow"
+count = 20
+
+[[choose]]
+id = "choose_29"
+name = "Second Equipment Choice"
+count = 1
+
+[[choose.options]]
+name = "a martial weapon and a shield"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Shield"
+
+[[choose.options.directives]]
+id = "inventory_2"
+action = "add"
+item = "Martial Weapon"
+
+[[choose.options]]
+name = "two martial weapons"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Martial Weapon"
+
+[[choose.options.directives]]
+id = "inventory_2"
+action = "add"
+item = "Martial Weapon"
+
+[[choose]]
+id = "choose_36"
+name = "Third Equipment Choice"
+count = 1
+
+[[choose.options]]
+name = "a light crossbow and 20 bolts"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Light Crossbow"
+
+[[choose.options.directives]]
+id = "inventory_2"
+action = "add"
+item = "Crossbow Bolt"
+count = 20
+
+[[choose.options]]
+name = "two handaxes"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Handaxe"
+count = 2
+
+[[choose]]
+id = "choose_48"
+count = 1
+
+[[choose.options]]
+name = "a dungeoneer's pack"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Dungeoneer's Pack"
+
+[[choose.options]]
+name = "an explorer's pack"
+
+[[choose.options.directives]]
+id = "inventory_1"
+action = "add"
+item = "Explorer's Pack"
+
+[[choose]]
+id = "choose_55"
+name = "Class Languages"
+count = 2
+description = "Choose two more languages your character knows."
+
+[[choose.options]]
+name = "Celestial"
+
+[[choose.options.directives]]
+id = "language_1"
+name = "Celestial"
+
+[[choose.options]]
+name = "Infernal"
+
+[[choose.options.directives]]
+id = "language_1"
+name = "Infernal"
+
+[[choose.options]]
+name = "Sylvan"
+
+[[choose.options.directives]]
+id = "language_1"
+name = "Sylvan"
+
+[[choose.options]]
+name = "Undercommon"
+
+[[choose.options.directives]]
+id = "language_1"
+name = "Undercommon"

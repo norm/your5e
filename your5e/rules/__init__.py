@@ -1,7 +1,27 @@
 from typing import Dict, List, Any, Tuple
+import inspect
 import re
 
 from .directives import DIRECTIVES
+
+
+def extract_key_value(text: str):
+    # "- _key_ value..." -> (key, value...)
+    if text.startswith("- "):
+        text = text[2:].strip()
+        try:
+            key, value = text.split(None, 1)
+        except ValueError:
+            key = text
+            value = ""
+
+        for marker in ["**", "__", "*", "_"]:
+            if key.startswith(marker) and key.endswith(marker):
+                if key[len(marker) : -len(marker)]:
+                    return (key[len(marker) : -len(marker)].lower(), value)
+                return None
+    return None
+
 
 SHORTHAND_FORMAT = re.compile(
     r"""
@@ -49,7 +69,6 @@ class DirectivePosition:
                 index += 1
                 continue
 
-            # Skip comment lines
             directive_name = line[2:].strip().lower()
             if directive_name.startswith("comment") or directive_name.startswith("#"):
                 index += 1
@@ -119,6 +138,13 @@ class RuleParser(DirectivePosition):
                 )
                 continue
 
+            directive_class = directive_info["class"]
+
+            # check for a directive that supports nested directives (eg Choose)
+            sig = inspect.signature(directive_class.new)
+            wants_content = "raw_lines" in sig.parameters
+
+            args = {}
             if shorthand_match:
                 # shorthand is formatted key/value, but the key might not be
                 # "key" and value might not be "value"" (eg Resource fills in
@@ -131,38 +157,32 @@ class RuleParser(DirectivePosition):
                 args = {shorthand_key: {"value": key, "line": line_number}}
                 if value:
                     args[shorthand_value] = {"value": value, "line": line_number}
+
+            if wants_content:
+                directive_obj, invalid = directive_class.new(
+                    line_number, args, raw_lines=block_lines
+                )
             else:
-                args = {}
-                for count, line in enumerate(block_lines[1:], 1):
-                    try:
-                        (first_word, value) = line.strip()[2:].split(None, 1)
-                    except ValueError:
-                        first_word = line.strip()[2:]
-                        value = ""
+                if not shorthand_match:
+                    for count, line in enumerate(block_lines[1:], 1):
+                        key_value_pair = extract_key_value(line.strip())
+                        if key_value_pair:
+                            key, value = key_value_pair
+                        else:
+                            errors.append(
+                                {
+                                    "line": line_number + count,
+                                    "text": "Argument has no key.",
+                                }
+                            )
+                            parse_error = True
+                            continue
 
-                    key = None
-                    for marker in ["**", "__", "*", "_"]:
-                        if first_word.startswith(marker) and first_word.endswith(
-                            marker
-                        ):
-                            key = first_word[len(marker) : -len(marker)].lower()
-                            break
+                        # last occurence wins
+                        args[key] = {"value": value, "line": line_number + count}
 
-                    if not key:
-                        errors.append(
-                            {
-                                "line": line_number + count,
-                                "text": "Argument has no key.",
-                            }
-                        )
-                        parse_error = True
-                        continue
+                directive_obj, invalid = directive_class.new(line_number, args)
 
-                    # last occurence wins
-                    args[key] = {"value": value, "line": line_number + count}
-
-            directive_class = directive_info["class"]
-            directive_obj, invalid = directive_class.new(line_number, args)
             if parse_error or invalid:
                 errors.extend(invalid)
             else:

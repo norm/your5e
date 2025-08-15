@@ -65,11 +65,14 @@ arguments, can be collapsed into a shorthand:
 
 ### Available Directives
 
+- \# (a comment, entire line is ignored)
 - Comment (entire line is ignored)
 - [Ability Score](directives/ability_score.md) sets/adjusts an ability score
   on a character
 - [Action](directives/action.md) adds an Action, Bonus Action, or Reaction
   that a character can take
+- [Choose](directives/choose.md) adds choices, which themselves contain
+  other directives
 - [Hit Die](directives/hit_die.md) adds a hit die to a character
 - [Inventory](directives/inventory.md) add/remove items from a character's
   inventory
