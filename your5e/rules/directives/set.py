@@ -15,55 +15,29 @@ class Set(Directive):
     @classmethod
     def new(
         cls,
-        index: int,
+        line: int,
         args: dict,
     ) -> tuple[Optional["Set"], list]:
-
-        index += 1  # 0-indexed
-
-        errors = []
-
         # required arguments
-        if "key" not in args:
+        errors = []
+        if "key" not in args or not args["key"]["value"]:
             errors.append(
                 {
-                    "line": index,
+                    "line": line,
                     "text": 'Required "key" argument is missing.',
                 }
             )
-
-        if "value" not in args:
+        if "value" not in args or not args["value"]["value"]:
             errors.append(
                 {
-                    "line": index,
+                    "line": line,
                     "text": 'Required "value" argument is missing.',
                 }
             )
-
         if errors:
             return None, errors
 
-        # validate key
-        key_value = args["key"]["value"]
-        if not key_value.strip():
-            return None, [
-                {
-                    "line": args["key"]["line"],
-                    "text": f'Key "{key_value}" is not valid.',
-                }
-            ]
-
-        # validate value
-        value_value = args["value"]["value"]
-        if not value_value.strip():
-            return None, [
-                {
-                    "line": args["value"]["line"],
-                    "text": f'Value "{value_value}" is not valid.',
-                }
-            ]
-
-        return cls.create_object(args, index), []
+        return cls.create_object(args, line), []
 
     def __str__(self) -> str:
         return f"{self.DIRECTIVE_NAME}: {self.key} = '{self.value}'"

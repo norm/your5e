@@ -166,7 +166,7 @@ class RuleParser(DirectivePosition):
                 continue
 
             directive_class = directive_info["class"]
-            directive_obj, invalid = directive_class.new(index, args)
+            directive_obj, invalid = directive_class.new(index + 1, args)
             if parse_error or invalid:
                 errors.extend(invalid)
             else:

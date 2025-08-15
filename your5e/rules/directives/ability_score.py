@@ -53,17 +53,14 @@ class AbilityScore(Directive):
     @classmethod
     def new(
         cls,
-        index: int,
+        line: int,
         args: dict,
     ) -> tuple[Optional["AbilityScore"], list]:
-
-        index += 1  # 0-indexed
-
         # required arguments
         if "ability" not in args:
             return None, [
                 {
-                    "line": index,
+                    "line": line,
                     "text": 'Required "ability" argument is missing.',
                 }
             ]
@@ -93,14 +90,14 @@ class AbilityScore(Directive):
         if not has_value and not has_override:
             return None, [
                 {
-                    "line": index,
+                    "line": line,
                     "text": 'Either "value" or "override" must be specified.',
                 }
             ]
         if has_value and has_override:
             return None, [
                 {
-                    "line": index,
+                    "line": line,
                     "text": 'Only one of "value" and "override" can be specified.',
                 }
             ]
@@ -193,7 +190,7 @@ class AbilityScore(Directive):
                 ):
                     args["minimum"] = {"value": "1", "line": args["override"]["line"]}
 
-        return cls.create_object(args, index), []
+        return cls.create_object(args, line), []
 
     def __str__(self) -> str:
         ability_name = self.ability.capitalize()

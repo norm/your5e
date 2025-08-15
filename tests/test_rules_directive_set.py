@@ -133,8 +133,8 @@ class TestSetDirective:
         assert into_dicts(result) == []
         assert errors == [
             {
-                "line": 2,
-                "text": 'Key "" is not valid.',
+                "line": 1,
+                "text": 'Required "key" argument is missing.',
             }
         ]
 
@@ -150,8 +150,8 @@ class TestSetDirective:
         assert into_dicts(result) == []
         assert errors == [
             {
-                "line": 3,
-                "text": 'Value "" is not valid.',
+                "line": 1,
+                "text": 'Required "value" argument is missing.',
             }
         ]
 

@@ -16,17 +16,14 @@ class HitDie(Directive):
     @classmethod
     def new(
         cls,
-        index: int,
+        line: int,
         args: dict,
     ) -> tuple[Optional["HitDie"], list]:
-
-        index += 1  # 0-indexed
-
         # required arguments
         if "die" not in args:
             return None, [
                 {
-                    "line": index,
+                    "line": line,
                     "text": 'Required "die" argument is missing.',
                 }
             ]
@@ -81,7 +78,7 @@ class HitDie(Directive):
                 "line": args["die"]["line"],
             }
 
-        return cls.create_object(args, index), []
+        return cls.create_object(args, line), []
 
     def __str__(self) -> str:
         return f"{self.DIRECTIVE_NAME}: d{self.die} ({self.value})"
