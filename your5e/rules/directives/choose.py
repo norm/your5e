@@ -95,6 +95,43 @@ class Choose(Directive):
             data["options"] = options_dicts
         return data
 
+    def to_markdown(self) -> str:
+        """Convert Choose directive back to Markdown format."""
+        # Determine if we can use shorthand
+        can_use_shorthand = (
+            self.name is not None and self.description is None and self.comment is None
+        )
+
+        lines = []
+
+        if can_use_shorthand:
+            # Shorthand format: - Choose _count_ name
+            lines.append(f"- Choose _{self.count}_ {self.name}")
+        else:
+            # Full format
+            if self.name is None:
+                # Special case: no name but has count
+                lines.append(f"- Choose _{self.count}_")
+            else:
+                lines.append("- Choose")
+                # Add directive-specific fields first
+                lines.append(f"    - _Count_ {self.count}")
+                if self.name is not None:
+                    lines.append(f"    - _Name_ {self.name}")
+                if self.description is not None:
+                    lines.append(f"    - _Description_ {self.description}")
+
+        # Add options
+        for option in self.options:
+            lines.append(f"    - _Option_ {option.name}")
+            for directive in option.directives:
+                directive_markdown = directive.to_markdown()
+                # Indent each line of the directive by 8 spaces
+                for line in directive_markdown.strip().split("\n"):
+                    lines.append(f"        {line}")
+
+        return "\n".join(lines) + "\n"
+
     def __str__(self) -> str:
         name_part = f"{self.name} " if self.name else ""
         return (

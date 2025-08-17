@@ -211,3 +211,9 @@ class AbilityScore(Directive):
             string = string + self.value
 
         return string
+
+    def filter_fields(self) -> list:
+        """Filter out maximum field if it's the default value of '20'."""
+        if self.maximum == "20":
+            return ["maximum"]
+        return []

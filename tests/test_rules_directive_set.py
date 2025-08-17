@@ -174,3 +174,46 @@ class TestSetDirective:
         with open("tests/rules/directives/set.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create Set objects from TOML data
+        with open("tests/rules/directives/set.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        set_objects = []
+        for item in toml_data["set"]:
+            set_obj = Set(
+                id=item["id"],
+                name=item.get("name"),
+                comment=item.get("comment"),
+                key=item["key"],
+                value=item["value"],
+            )
+            set_objects.append(set_obj)
+
+        # Test first object (with comment)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Set
+              - _key_ Name
+              - _value_ Shade of the Mountain
+              - _comment_ standard array
+            """
+        )
+        assert set_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (no comment)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Set _Age_ 23
+            """
+        )
+        assert set_objects[1].to_markdown() == expected_markdown_2
+
+        # Test third object (no comment)
+        expected_markdown_3 = textwrap.dedent(
+            """\
+            - Set _Name_ Shade of the Mountain
+            """
+        )
+        assert set_objects[2].to_markdown() == expected_markdown_3

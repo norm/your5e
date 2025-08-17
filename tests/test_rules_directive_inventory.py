@@ -280,3 +280,39 @@ class TestInventoryDirective:
         with open("tests/rules/directives/inventory.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create Inventory objects from TOML data
+        with open("tests/rules/directives/inventory.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        inventory_objects = []
+        for item in toml_data["inventory"]:
+            inventory_obj = Inventory(
+                id=item["id"],
+                name=item.get("name"),
+                comment=item.get("comment"),
+                action=item["action"],
+                item=item["item"],
+                count=item.get("count"),
+            )
+            inventory_objects.append(inventory_obj)
+
+        # Test first object (no count - should use shorthand)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Inventory _add_ Chain Mail
+            """
+        )
+        assert inventory_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (with count - should use full format)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Inventory
+              - _action_ add
+              - _item_ Arrow
+              - _count_ 20
+            """
+        )
+        assert inventory_objects[1].to_markdown() == expected_markdown_2

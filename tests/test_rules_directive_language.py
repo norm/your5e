@@ -184,3 +184,41 @@ class TestLanguage:
         with open("tests/rules/directives/language.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create Language objects from TOML data
+        with open("tests/rules/directives/language.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        language_objects = []
+        for item in toml_data["language"]:
+            language_obj = Language(
+                id=item["id"],
+                name=item["name"],
+                comment=item.get("comment"),
+            )
+            language_objects.append(language_obj)
+
+        # Test first object (no comment - shorthand vs full format)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Language _Common_
+            """
+        )
+        assert language_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (no comment - shorthand vs full format)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Language _Sylvan_
+            """
+        )
+        assert language_objects[1].to_markdown() == expected_markdown_2
+
+        # Test third object (no comment - shorthand vs full format)
+        expected_markdown_3 = textwrap.dedent(
+            """\
+            - Language _Undercommon_
+            """
+        )
+        assert language_objects[2].to_markdown() == expected_markdown_3

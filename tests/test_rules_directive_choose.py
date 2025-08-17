@@ -366,3 +366,94 @@ class TestChoose:
         with open("tests/rules/directives/choose.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Use existing test that parses full Choose objects from markdown
+        # Avoids manually constructing complex nested structure
+        result, errors = RuleParser().parse_rules_file(
+            "docs/rules/directives/choose.md"
+        )
+
+        # Get successfully parsed Choose objects (ignore invalid examples)
+        choose_objects = [obj for obj in result if isinstance(obj, Choose)]
+
+        # Test first object (has name, no description - should use shorthand)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Choose _1_ First Equipment Choice
+                - _Option_ chain mail
+                    - Inventory _add_ Chain Mail
+                - _Option_ leather armor, longbow, and 20 arrows
+                    - Inventory _add_ Leather Armor
+                    - Inventory _add_ Longbow
+                    - Inventory
+                      - _action_ add
+                      - _item_ Arrow
+                      - _count_ 20
+            """
+        )
+        assert choose_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (has name, no description - should use shorthand)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Choose _1_ Second Equipment Choice
+                - _Option_ a martial weapon and a shield
+                    - Inventory _add_ Shield
+                    - Inventory _add_ Martial Weapon
+                - _Option_ two martial weapons
+                    - Inventory _add_ Martial Weapon
+                    - Inventory _add_ Martial Weapon
+            """
+        )
+        assert choose_objects[1].to_markdown() == expected_markdown_2
+
+        # Test third object (has name, no description - should use shorthand)
+        expected_markdown_3 = textwrap.dedent(
+            """\
+            - Choose _1_ Third Equipment Choice
+                - _Option_ a light crossbow and 20 bolts
+                    - Inventory _add_ Light Crossbow
+                    - Inventory
+                      - _action_ add
+                      - _item_ Crossbow Bolt
+                      - _count_ 20
+                - _Option_ two handaxes
+                    - Inventory
+                      - _action_ add
+                      - _item_ Handaxe
+                      - _count_ 2
+            """
+        )
+        assert choose_objects[2].to_markdown() == expected_markdown_3
+
+        # Test fourth object (no name, no description - should use special shorthand)
+        expected_markdown_4 = textwrap.dedent(
+            """\
+            - Choose _1_
+                - _Option_ a dungeoneer's pack
+                    - Inventory _add_ Dungeoneer's Pack
+                - _Option_ an explorer's pack
+                    - Inventory _add_ Explorer's Pack
+            """
+        )
+        assert choose_objects[3].to_markdown() == expected_markdown_4
+
+        # Test fifth object (has name and description - should use full format)
+        expected_markdown_5 = textwrap.dedent(
+            """\
+            - Choose
+                - _Count_ 2
+                - _Name_ Class Languages
+                - _Description_ Choose two more languages your character knows.
+                - _Option_ Celestial
+                    - Language _Celestial_
+                - _Option_ Infernal
+                    - Language _Infernal_
+                - _Option_ Sylvan
+                    - Language _Sylvan_
+                - _Option_ Undercommon
+                    - Language _Undercommon_
+            """
+        )
+        assert choose_objects[4].to_markdown() == expected_markdown_5

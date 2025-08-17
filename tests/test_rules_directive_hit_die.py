@@ -267,3 +267,46 @@ class TestHitDie:
         with open("tests/rules/directives/hit_die.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create HitDie objects from TOML data
+        with open("tests/rules/directives/hit_die.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        hit_die_objects = []
+        for item in toml_data["hit_die"]:
+            hit_die_obj = HitDie(
+                id=item["id"],
+                name=item.get("name"),
+                comment=item.get("comment"),
+                die=item["die"],
+                value=item["value"],
+            )
+            hit_die_objects.append(hit_die_obj)
+
+        # Test first object (with comment)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Hit Die
+              - _die_ d10
+              - _value_ 10
+              - _comment_ Always max for a character's first level
+            """
+        )
+        assert hit_die_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (no comment - should use shorthand)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Hit Die _d12_ 7
+            """
+        )
+        assert hit_die_objects[1].to_markdown() == expected_markdown_2
+
+        # Test third object (no comment - should use shorthand)
+        expected_markdown_3 = textwrap.dedent(
+            """\
+            - Hit Die _d6_ 4
+            """
+        )
+        assert hit_die_objects[2].to_markdown() == expected_markdown_3

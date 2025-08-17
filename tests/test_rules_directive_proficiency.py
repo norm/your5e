@@ -219,3 +219,46 @@ class TestProficiency:
         with open("tests/rules/directives/proficiency.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create Proficiency objects from TOML data
+        with open("tests/rules/directives/proficiency.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        proficiency_objects = []
+        for item in toml_data["proficiency"]:
+            proficiency_obj = Proficiency(
+                id=item["id"],
+                name=item.get("name"),
+                comment=item.get("comment"),
+                type=item["type"],
+                value=item["value"],
+            )
+            proficiency_objects.append(proficiency_obj)
+
+        # Test first object (with comment - should use full format)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Proficiency
+              - _type_ weapon
+              - _value_ Martial
+              - _comment_ all Martial class weapons
+            """
+        )
+        assert proficiency_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (no comment - should use shorthand)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Proficiency _saving throw_ Strength
+            """
+        )
+        assert proficiency_objects[1].to_markdown() == expected_markdown_2
+
+        # Test third object (no comment - should use shorthand)
+        expected_markdown_3 = textwrap.dedent(
+            """\
+            - Proficiency _saving throw_ Constitution
+            """
+        )
+        assert proficiency_objects[2].to_markdown() == expected_markdown_3

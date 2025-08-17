@@ -82,3 +82,7 @@ class HitDie(Directive):
 
     def __str__(self) -> str:
         return f"{self.DIRECTIVE_NAME}: d{self.die} ({self.value})"
+
+    def die_as_text(self) -> str:
+        """Format die value as text for markdown."""
+        return f"d{self.die}"

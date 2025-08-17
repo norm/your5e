@@ -460,3 +460,89 @@ class TestAbilityScore:
         with open("tests/rules/directives/ability_score.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create AbilityScore objects from TOML data
+        with open("tests/rules/directives/ability_score.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        ability_score_objects = []
+        for item in toml_data["ability_score"]:
+            ability_score_obj = AbilityScore(
+                id=item["id"],
+                name=item.get("name"),
+                comment=item.get("comment"),
+                ability=item["ability"],
+                value=item.get("value"),
+                override=item.get("override"),
+                minimum=item.get("minimum"),
+                maximum=item.get("maximum"),
+            )
+            ability_score_objects.append(ability_score_obj)
+
+        # Test first object (with comment - should use full format)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Ability Score
+              - _ability_ dexterity
+              - _value_ 15
+              - _comment_ standard array
+            """
+        )
+        assert ability_score_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (no comment, no additional fields - should use shorthand)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Ability Score _strength_ 8
+            """
+        )
+        assert ability_score_objects[1].to_markdown() == expected_markdown_2
+
+        # Test third object (has maximum field - should use full format)
+        expected_markdown_3 = textwrap.dedent(
+            """\
+            - Ability Score _strength_ +2
+            """
+        )
+        assert ability_score_objects[2].to_markdown() == expected_markdown_3
+
+        # Test fourth object (has maximum field - should use full format)
+        expected_markdown_4 = textwrap.dedent(
+            """\
+            - Ability Score _charisma_ +1
+            """
+        )
+        assert ability_score_objects[3].to_markdown() == expected_markdown_4
+
+        # Test fifth object (has override - should use full format)
+        expected_markdown_5 = textwrap.dedent(
+            """\
+            - Ability Score
+              - _ability_ strength
+              - _override_ 21
+            """
+        )
+        assert ability_score_objects[4].to_markdown() == expected_markdown_5
+
+        # Test sixth object (has override and minimum - should use full format)
+        expected_markdown_6 = textwrap.dedent(
+            """\
+            - Ability Score
+              - _ability_ intelligence
+              - _override_ 19
+              - _minimum_ 19
+            """
+        )
+        assert ability_score_objects[5].to_markdown() == expected_markdown_6
+
+        # Test seventh object (has override and maximum - should use full format)
+        expected_markdown_7 = textwrap.dedent(
+            """\
+            - Ability Score
+              - _ability_ constitution
+              - _override_ +2
+              - _maximum_ 20
+            """
+        )
+        assert ability_score_objects[6].to_markdown() == expected_markdown_7

@@ -265,3 +265,51 @@ class TestResource:
         with open("tests/rules/directives/resource.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create Resource objects from TOML data
+        with open("tests/rules/directives/resource.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        resource_objects = []
+        for item in toml_data["resource"]:
+            resource_obj = Resource(
+                id=item["id"],
+                name=item["name"],
+                comment=item.get("comment"),
+                uses=item["uses"],
+                renew=item.get("renew"),
+                regain=item.get("regain"),
+            )
+            resource_objects.append(resource_obj)
+
+        # Test first object (has renew field - should use full format)
+        expected_markdown_1 = textwrap.dedent(
+            """\
+            - Resource
+              - _uses_ 1
+              - _renew_ rest
+              - _name_ Second Wind
+            """
+        )
+        assert resource_objects[0].to_markdown() == expected_markdown_1
+
+        # Test second object (has renew and regain fields - should use full format)
+        expected_markdown_2 = textwrap.dedent(
+            """\
+            - Resource
+              - _uses_ 7
+              - _renew_ dawn
+              - _regain_ 1d6 + 1
+              - _name_ Wand of Magic Missiles
+            """
+        )
+        assert resource_objects[1].to_markdown() == expected_markdown_2
+
+        # Test third object (only name and uses - should use shorthand)
+        expected_markdown_3 = textwrap.dedent(
+            """\
+            - Resource _Charm of the Storm_ 3
+            """
+        )
+        assert resource_objects[2].to_markdown() == expected_markdown_3

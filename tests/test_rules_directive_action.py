@@ -3,7 +3,7 @@ import textwrap
 import toml
 
 from your5e.rules import RuleParser
-from your5e.rules.directives import Action
+from your5e.rules.directives import Action, BonusAction, Reaction
 from .utils import into_dicts
 
 
@@ -232,3 +232,81 @@ class TestAction:
         with open("tests/rules/directives/action.errors.toml", "r") as f:
             expected_errors = toml.load(f)
         assert errors == expected_errors.get("errors", [])
+
+    def test_to_markdown(self):
+        # Create Action objects from TOML data
+        with open("tests/rules/directives/action.toml", "r") as f:
+            toml_data = toml.load(f)
+
+        # Test Action directive
+        action_data = toml_data["action"][0]
+        action_obj = Action(
+            id=action_data["id"],
+            name=action_data["name"],
+            comment=action_data.get("comment"),
+            description=action_data["description"],
+            uses=action_data.get("uses"),
+            effect=action_data.get("effect"),
+            amount=action_data.get("amount"),
+            roll=action_data.get("roll"),
+        )
+
+        expected_action_markdown = textwrap.dedent(
+            """\
+            - Action
+              - _description_ Make a melee attack with your elbow, knee, etc.
+              - _effect_ harm
+              - _amount_ 1 + {STRENGTH_MOD}
+              - _roll_ d20
+              - _name_ Unarmed Strike
+            """
+        )
+        assert action_obj.to_markdown() == expected_action_markdown
+
+        # Test BonusAction directive
+        bonusaction_data = toml_data["bonusaction"][0]
+        bonusaction_obj = BonusAction(
+            id=bonusaction_data["id"],
+            name=bonusaction_data["name"],
+            comment=bonusaction_data.get("comment"),
+            description=bonusaction_data["description"],
+            uses=bonusaction_data.get("uses"),
+            effect=bonusaction_data.get("effect"),
+            amount=bonusaction_data.get("amount"),
+            roll=bonusaction_data.get("roll"),
+        )
+
+        expected_bonusaction_markdown = textwrap.dedent(
+            """\
+            - Bonus Action
+              - _description_ Regain 1d10 + {FIGHTER} Hit Points between rests.
+              - _uses_ Second Wind
+              - _effect_ heal
+              - _amount_ 1d10 + {FIGHTER}
+              - _name_ Second Wind
+            """
+        )
+        assert bonusaction_obj.to_markdown() == expected_bonusaction_markdown
+
+        # Test Reaction directive
+        reaction_data = toml_data["reaction"][0]
+        reaction_obj = Reaction(
+            id=reaction_data["id"],
+            name=reaction_data["name"],
+            comment=reaction_data.get("comment"),
+            description=reaction_data["description"],
+            uses=reaction_data.get("uses"),
+            effect=reaction_data.get("effect"),
+            amount=reaction_data.get("amount"),
+            roll=reaction_data.get("roll"),
+        )
+
+        expected_reaction_markdown = textwrap.dedent(
+            """\
+            - Reaction
+              - _description_ Attempt to interrupt a creature casting a spell.
+              - _uses_ Spell Slot
+              - _name_ Counterspell
+            """
+        )
+        assert reaction_obj.to_markdown() == expected_reaction_markdown
