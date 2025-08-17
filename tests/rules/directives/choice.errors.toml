@@ -1,0 +1,15 @@
+[[errors]]
+line = 22
+text = 'Required "choice" argument is missing.'
+
+[[errors]]
+line = 24
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 26
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 26
+text = 'Required "choice" argument is missing.'

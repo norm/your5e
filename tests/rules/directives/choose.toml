@@ -1,5 +1,5 @@
 [[choose]]
-id = "choose_19"
+id = "choose_20"
 name = "First Equipment Choice"
 count = 1
 
@@ -31,7 +31,7 @@ item = "Arrow"
 count = 20
 
 [[choose]]
-id = "choose_29"
+id = "choose_30"
 name = "Second Equipment Choice"
 count = 1
 
@@ -62,7 +62,7 @@ action = "add"
 item = "Martial Weapon"
 
 [[choose]]
-id = "choose_36"
+id = "choose_37"
 name = "Third Equipment Choice"
 count = 1
 
@@ -90,7 +90,7 @@ item = "Handaxe"
 count = 2
 
 [[choose]]
-id = "choose_48"
+id = "choose_49"
 count = 1
 
 [[choose.options]]
@@ -110,7 +110,7 @@ action = "add"
 item = "Explorer's Pack"
 
 [[choose]]
-id = "choose_55"
+id = "choose_56"
 name = "Class Languages"
 count = 2
 description = "Choose two more languages your character knows."

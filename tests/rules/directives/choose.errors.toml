@@ -1,14 +1,10 @@
 [[errors]]
-line = 72
+line = 73
 text = 'Required "count" argument is missing.'
 
 [[errors]]
-line = 79
+line = 80
 text = "Not enough options to choose from."
-
-[[errors]]
-line = 87
-text = "Option must contain at least one directive."
 
 [[errors]]
 line = 88
@@ -31,13 +27,17 @@ line = 92
 text = "Option must contain at least one directive."
 
 [[errors]]
-line = 98
-text = "Directives must be inside option."
+line = 93
+text = "Option must contain at least one directive."
 
 [[errors]]
 line = 99
+text = "Directives must be inside option."
+
+[[errors]]
+line = 100
 text = "Arguments come before options."
 
 [[errors]]
-line = 108
+line = 109
 text = "Not enough options to choose from."

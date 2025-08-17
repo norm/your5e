@@ -1,7 +1,8 @@
 # Choose
 
-Where a character must choose one (or more) from a set of options, use the
-Choose directive. It takes the following arguments:
+Where a character must choose one (or more) from a set of options (see also
+[Choice](choice.md)), use the Choose directive. It takes the following
+arguments:
 
 - **Name** (mandatory), the name of the choice to be made
 - **Count** (mandatory), the number of options that can be selected

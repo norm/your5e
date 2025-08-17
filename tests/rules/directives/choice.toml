@@ -1,0 +1,14 @@
+[[choice]]
+id = "choice_14"
+name = "First Equipment Choice"
+choice = "chain mail"
+
+[[choice]]
+id = "choice_15"
+name = "Second Equipment Choice"
+choice = "two martial weapons"
+
+[[choice]]
+id = "choice_16"
+name = "Third Equipment Choice"
+choice = "two handaxes"
