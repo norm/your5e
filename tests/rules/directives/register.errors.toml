@@ -1,0 +1,27 @@
+[[errors]]
+line = 26
+text = 'Required "type" argument is missing.'
+
+[[errors]]
+line = 26
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 27
+text = 'Required "name" argument is missing.'
+
+[[errors]]
+line = 28
+text = 'Required "type" argument is missing.'
+
+[[errors]]
+line = 32
+text = 'Type "Armor Class" should be either Ability Score, Roll, Skill.'
+
+[[errors]]
+line = 33
+text = 'Type "Inventory" should be either Ability Score, Roll, Skill.'
+
+[[errors]]
+line = 36
+text = "No arguments when using shorthand notation."

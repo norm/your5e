@@ -1,0 +1,14 @@
+[[register]]
+id = "register_16"
+name = "Dexterity"
+type = "Ability Score"
+
+[[register]]
+id = "register_17"
+name = "Acrobatics (Dexterity)"
+type = "Skill"
+
+[[register]]
+id = "register_18"
+name = "Initiative"
+type = "Roll"
