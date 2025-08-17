@@ -71,7 +71,15 @@ class DirectivePosition:
 
             directive_name = line[2:].strip().lower()
             if directive_name.startswith("comment") or directive_name.startswith("#"):
+                # ignored
                 index += 1
+                continue
+            if directive_name.startswith("break"):
+                # skips the rest of this section
+                while index < len(lines):
+                    if lines[index].strip().startswith("#"):
+                        break
+                    index += 1
                 continue
 
             start_index = index

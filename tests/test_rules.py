@@ -4,6 +4,83 @@ from your5e.rules import RuleParser, DirectiveExtract
 from .utils import into_dicts
 
 
+class TestDirectivePosition:
+    hit_die = ["- Hit Die _d12_ 12\n"]
+    proficiencies = [
+        "- Choose _2_ Barbarian Proficiencies\n",
+        "    - _Option_ Animal Handling\n",
+        "        - Proficiency _skill_ Animal Handling\n",
+        "    - _Option_ Athletics\n",
+        "        - Proficiency _skill_ Athletics\n",
+        "    - _Option_ Intimidation\n",
+        "        - Proficiency _skill_ Intimidation\n",
+        "    - _Option_ Nature\n",
+        "        - Proficiency _skill_ Nature\n",
+        "    - _Option_ Perception\n",
+        "        - Proficiency _skill_ Perception\n",
+        "    - _Option_ Survival\n",
+        "        - Proficiency _skill_ Survival\n",
+    ]
+    parser = RuleParser()
+
+    def test_directives_at_top(self):
+        with open("tests/rules/parser/top_of_file.md", "r") as handle:
+            lines = handle.readlines()
+
+        result = self.parser.next_directive_block(lines, 0)
+        assert result == (0, self.hit_die)
+        result = self.parser.next_directive_block(lines, 1)
+        assert result == (1, self.proficiencies)
+
+    def test_directives_after_header(self):
+        with open("tests/rules/parser/after_header.md", "r") as handle:
+            lines = handle.readlines()
+
+        result = self.parser.next_directive_block(lines, 0)
+        assert result == (2, self.hit_die)
+        result = self.parser.next_directive_block(lines, 3)
+        assert result == (3, self.proficiencies)
+
+    def test_directives_skips_comments(self):
+        with open("tests/rules/parser/skips_comments.md", "r") as handle:
+            lines = handle.readlines()
+
+        result = self.parser.next_directive_block(lines, 0)
+        assert result == (3, self.hit_die)
+
+    def test_directives_after_text(self):
+        with open("tests/rules/parser/after_text.md", "r") as handle:
+            lines = handle.readlines()
+
+        result = self.parser.next_directive_block(lines, 0)
+        assert result is None
+
+    def test_indented_directives_ignored(self):
+        with open("tests/rules/parser/indentation.md", "r") as handle:
+            lines = handle.readlines()
+
+        result = self.parser.next_directive_block(lines, 0)
+        assert result == (2, self.hit_die)
+        result = self.parser.next_directive_block(lines, 3)
+        assert result == (20, ["- Inventory _add_ explorer's pack\n"])
+
+    def test_unknown_directives_still_included(self):
+        with open("tests/rules/parser/unknown_directives.md", "r") as handle:
+            lines = handle.readlines()
+
+        result = self.parser.next_directive_block(lines, 0)
+        assert result == (2, ["- Hit Dice _d12_ 12\n"])
+
+    def test_break_skips(self):
+        with open("tests/rules/parser/break.md", "r") as handle:
+            lines = handle.readlines()
+
+        result = self.parser.next_directive_block(lines, 0)
+        assert result == (2, self.hit_die)
+        result = self.parser.next_directive_block(lines, 3)
+        assert result == (20, ["- Inventory _add_ explorer's pack\n"])
+
+
 class TestParseRules:
     def test_empty_content(self):
         result, errors = RuleParser().parse_rules("")
